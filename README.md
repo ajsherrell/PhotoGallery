@@ -8,6 +8,7 @@
 - Retrofit
 - Scalars Converter
 - Repository Pattern
-- REST Api
+- JSON
+- REST Api from https://api.flickr.com/
 
 ### Images

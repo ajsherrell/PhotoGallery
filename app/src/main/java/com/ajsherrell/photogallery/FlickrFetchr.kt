@@ -12,22 +12,24 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 private const val TAG = "FlickrFethcr"
 
+//very basic repository:
 class FlickrFetchr {
 
     private val flickrApi: FlickrApi
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://www.flickr.com/")
+//            .baseUrl("https://www.flickr.com/") --gets homepage
+            .baseUrl("https://api.flickr.com/")
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
 
         flickrApi = retrofit.create(FlickrApi::class.java)
     }
 
-    fun fetchContents(): LiveData<String> {
+    fun fetchPhotos(): LiveData<String> {
         val responseLiveData: MutableLiveData<String> = MutableLiveData()
-        val flickrRequest: Call<String> = flickrApi.fetchContents()
+        val flickrRequest: Call<String> = flickrApi.fetchPhotos()
 
         flickrRequest.enqueue(object : Callback<String> {
             override fun onFailure(call: Call<String>, t: Throwable) {
