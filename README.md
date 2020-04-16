@@ -7,5 +7,7 @@
 - RecyclerView
 - Retrofit
 - Scalars Converter
+- Repository Pattern
+- REST Api
 
 ### Images
