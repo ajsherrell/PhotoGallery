@@ -9,6 +9,7 @@
 - Scalars Converter
 - Repository Pattern
 - JSON
+- GSON
 - REST Api from https://api.flickr.com/
 
 ### Images
