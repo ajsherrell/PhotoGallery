@@ -20,9 +20,18 @@ private const val TAG = "PhotoGalleryFragment"
 class PhotoGalleryFragment : Fragment() {
 
     private lateinit var photoRecyclerView: RecyclerView
+    private lateinit var thumbnailDownloader: ThumbnailDownloader<PhotoHolder>
     private val model: PhotoGalleryViewModel by lazy {
         val factory = PhotoGalleryViewModelFactory()
         ViewModelProvider(this@PhotoGalleryFragment, factory).get(PhotoGalleryViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true //not usually a good idea to retain fragment.
+
+        thumbnailDownloader = ThumbnailDownloader()
+        lifecycle.addObserver(thumbnailDownloader)
     }
 
     override fun onCreateView(
@@ -48,6 +57,11 @@ class PhotoGalleryFragment : Fragment() {
                 photoRecyclerView.adapter = PhotoAdapter(galleryItems)
             }
         )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(thumbnailDownloader)
     }
 
     private class PhotoHolder(itemImageView: ImageView): RecyclerView.ViewHolder(itemImageView) {
