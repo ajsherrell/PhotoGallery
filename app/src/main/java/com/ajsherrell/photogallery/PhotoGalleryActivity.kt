@@ -2,7 +2,6 @@ package com.ajsherrell.photogallery
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.ajsherrell.PhotoGalleryFragment
 
 class PhotoGalleryActivity : AppCompatActivity() {
 

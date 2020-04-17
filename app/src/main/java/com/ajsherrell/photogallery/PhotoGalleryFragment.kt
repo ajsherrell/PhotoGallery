@@ -1,4 +1,4 @@
-package com.ajsherrell
+package com.ajsherrell.photogallery
 
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -8,15 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ajsherrell.photogallery.*
 
 private const val TAG = "PhotoGalleryFragment"
 
@@ -65,7 +62,9 @@ class PhotoGalleryFragment : Fragment() {
                 parent,
                 false
             ) as ImageView
-            return PhotoHolder(view)
+            return PhotoHolder(
+                view
+            )
         }
 
         override fun getItemCount(): Int = galleryItems.size
