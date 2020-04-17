@@ -1,6 +1,7 @@
 package com.ajsherrell.photogallery
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Message
@@ -13,12 +14,15 @@ import java.util.concurrent.ConcurrentHashMap
 private const val TAG = "ThumbnailDownloader"
 private const val MESSAGE_DOWNLOAD = 0
 
-class ThumbnailDownloader<in T> : HandlerThread(TAG), LifecycleObserver {
+class ThumbnailDownloader<in T>(
+    private val responseHandler: Handler,
+    private val onThumbnailDownloaded: (T, Bitmap) -> Unit
+) : HandlerThread(TAG), LifecycleObserver {
 
     private var hasQuit = false
     private lateinit var requestHandler: Handler
     private val requestMap = ConcurrentHashMap<T, String>()
-    private val flickrFetchr: FlickrFetchr()
+    private val flickrFetchr = FlickrFetchr()
 
     @Suppress("UNCHECKED_CAST")
     @SuppressLint("HandlerLeak")
