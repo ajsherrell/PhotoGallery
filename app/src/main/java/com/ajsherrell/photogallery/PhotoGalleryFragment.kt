@@ -102,6 +102,10 @@ class PhotoGalleryFragment : Fragment() {
                     return false
                 }
             })
+
+            setOnSearchClickListener {
+                searchView.setQuery(model.searchTerm, false)
+            }
         }
     }
 
