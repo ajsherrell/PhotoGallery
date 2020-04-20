@@ -2,6 +2,7 @@ package com.ajsherrell.photogallery
 
 import android.content.Context
 import android.preference.PreferenceManager
+import androidx.core.content.edit
 
 private const val PREF_SEARCH_QUERY = "searchQuery"
 
@@ -15,9 +16,9 @@ object QueryPreferences { //"object" indicates a singleton -- means you only nee
 
     fun setStoredQuery(context: Context, query: String) {
         PreferenceManager.getDefaultSharedPreferences(context)
-            .edit()
-            .putString(PREF_SEARCH_QUERY, query)
-            .apply()
+            .edit {
+                putString(PREF_SEARCH_QUERY, query)
+            }
     }
 
 }
