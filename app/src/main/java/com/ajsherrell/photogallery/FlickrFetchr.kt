@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ajsherrell.photogallery.api.FlickrApi
 import com.ajsherrell.photogallery.api.FlickrResponse
 import com.ajsherrell.photogallery.api.PhotoResponse
+import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,10 +33,15 @@ class FlickrFetchr {
     }
 
     init {
+        val client = OkHttpClient.Builder()
+            .addInterceptor(PhotoInterceptor())
+            .build()
+
         val retrofit: Retrofit = Retrofit.Builder()
 //            .baseUrl("https://www.flickr.com/") --gets homepage
             .baseUrl("https://api.flickr.com/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
 
         flickrApi = retrofit.create(FlickrApi::class.java)
