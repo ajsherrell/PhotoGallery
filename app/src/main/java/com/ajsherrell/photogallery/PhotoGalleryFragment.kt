@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -22,15 +23,14 @@ class PhotoGalleryFragment : Fragment() {
 
     private lateinit var photoRecyclerView: RecyclerView
     private lateinit var thumbnailDownloader: ThumbnailDownloader<PhotoHolder>
-    private val model: PhotoGalleryViewModel by lazy {
-        val factory = PhotoGalleryViewModelFactory()
-        ViewModelProvider(this@PhotoGalleryFragment, factory).get(PhotoGalleryViewModel::class.java)
-    }
+    private lateinit var model: PhotoGalleryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true //not usually a good idea to retain fragment.
         setHasOptionsMenu(true)
+
+        model = ViewModelProviders.of(this).get(PhotoGalleryViewModel::class.java)
 
         val responseHandler = Handler()
         thumbnailDownloader = ThumbnailDownloader(responseHandler) { photoHolder, bitmap ->
@@ -102,6 +102,16 @@ class PhotoGalleryFragment : Fragment() {
                     return false
                 }
             })
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_item_clear -> {
+                model.fetchPhotos("")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

@@ -1,6 +1,5 @@
 package com.ajsherrell.photogallery
 
-import android.app.DownloadManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
@@ -17,6 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 private const val TAG = "FlickrFethcr"
 
@@ -25,17 +25,12 @@ class FlickrFetchr {
 
     private val flickrApi: FlickrApi
 
-    @WorkerThread
-    fun fetchPhoto(url: String): Bitmap? {
-        val response: Response<ResponseBody> = flickrApi.fetchUrlBytes(url).execute()
-        val bitmap = response.body()?.byteStream()?.use(BitmapFactory::decodeStream)
-        Log.i(TAG, "Decoded bitmap = $bitmap from Response!!! = $response")
-        return bitmap
-    }
-
     init {
         val client = OkHttpClient.Builder()
             .addInterceptor(PhotoInterceptor())
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .build()
 
         val retrofit: Retrofit = Retrofit.Builder()
@@ -65,17 +60,25 @@ class FlickrFetchr {
             }
 
             override fun onResponse(call: Call<FlickrResponse>, response: Response<FlickrResponse>) {
-                Log.d(TAG, "Response received: ${response.body()}!!!")
+                Log.d(TAG, "Response received!!!")
                 val flickrResponse: FlickrResponse? = response.body()
                 val photoResponse: PhotoResponse? = flickrResponse?.photos
                 var galleryItems: List<GalleryItem> = photoResponse?.galleryItems
                     ?: mutableListOf()
                 galleryItems = galleryItems.filterNot { //filters out the item if missing from json.
-                    it.url.isBlank()
+                    it.url.isNullOrBlank()
                 }
                 responseLiveData.value = galleryItems
             }
         })
         return responseLiveData
+    }
+
+    @WorkerThread
+    fun fetchPhoto(url: String): Bitmap? {
+        val response: Response<ResponseBody> = flickrApi.fetchUrlBytes(url).execute()
+        val bitmap = response.body()?.byteStream()?.use(BitmapFactory::decodeStream)
+        Log.i(TAG, "Decoded bitmap = $bitmap from Response!!! = $response")
+        return bitmap
     }
 }
