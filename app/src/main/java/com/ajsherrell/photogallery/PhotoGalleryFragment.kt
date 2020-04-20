@@ -37,7 +37,7 @@ class PhotoGalleryFragment : Fragment() {
             val drawable = BitmapDrawable(resources, bitmap)
             photoHolder.bindDrawable(drawable)
         }
-        lifecycle.addObserver(thumbnailDownloader)
+        lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
     }
 
     override fun onCreateView(
@@ -45,6 +45,10 @@ class PhotoGalleryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewLifecycleOwner.lifecycle.addObserver(
+            thumbnailDownloader.viewLifecycleObserver
+        )
+
         val view = inflater.inflate(R.layout.fragment_photo_gallery, container, false)
 
         photoRecyclerView = view.findViewById(R.id.photo_recycler_view)
