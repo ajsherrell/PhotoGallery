@@ -9,6 +9,6 @@ class PhotoGalleryViewModel : ViewModel() {
 
 
     init {
-        galleryItemLiveData = FlickrFetchr().fetchPhotos()
+        galleryItemLiveData = FlickrFetchr().searchPhotos("planets")
     }
 }
