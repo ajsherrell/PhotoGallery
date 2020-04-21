@@ -14,7 +14,7 @@ class PollWorker(val context: Context, workerParams: WorkerParameters) :
         Log.i(TAG, "Work request triggered!!!")
 
         val query = QueryPreferences.getStoredQuery(context)
-        val lastResultId = QueryPreferences.setLastResultId(context)
+        val lastResultId = QueryPreferences.getLastResultId(context)
         val items: List<GalleryItem> = if (query.isEmpty()) {
             FlickrFetchr().fetchPhotosRequest()
                 .execute()
