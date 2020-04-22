@@ -1,11 +1,15 @@
 package com.ajsherrell.photogallery
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+
+private const val TAG = "VisibleFragment"
 
 abstract class VisibleFragment : Fragment(){
 
@@ -13,6 +17,10 @@ abstract class VisibleFragment : Fragment(){
         override fun onReceive(context: Context?, intent: Intent?) {
             Toast.makeText(requireContext(),
                 "Got a broadcast!!! ${intent?.action}", Toast.LENGTH_LONG).show()
+
+            //if we receive this, we're visible, so cancel it
+            Log.i(TAG, "canceling notification")
+            resultCode = Activity.RESULT_CANCELED
         }
     }
 
