@@ -1,5 +1,6 @@
 package com.ajsherrell.photogallery
 
+import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -57,18 +58,28 @@ class PollWorker(val context: Context, workerParams: WorkerParameters) :
                 .setAutoCancel(true)
                 .build()
 
-            val notificationManager = NotificationManagerCompat.from(context)
-            notificationManager.notify(0, notification)
-
-            context.sendBroadcast(Intent(ACTION_SHOW_NOTIFICATION), PERM_PRIVATE)
+            showBackgroundNotification(0, notification)
 
         }
         return Result.success()
     }
 
+    private fun showBackgroundNotification(
+        requestCode: Int,
+        notificiation: Notification
+    ) {
+        val intent = Intent(ACTION_SHOW_NOTIFICATION).apply {
+            putExtra(REQUEST_CODE, requestCode)
+            putExtra(NOTIFICATION, notificiation)
+        }
+        context.sendOrderedBroadcast(intent, PERM_PRIVATE)
+    }
+
     companion object {
         const val ACTION_SHOW_NOTIFICATION = "com.ajsherrell.photogallery.SHOW_NOTIFICATION"
         const val PERM_PRIVATE = "com.ajsherrell.photogallery.PRIVATE"
+        const val REQUEST_CODE = "REQUEST_CODE"
+        const val NOTIFICATION = "NOTIFICATION"
     }
 
 }
