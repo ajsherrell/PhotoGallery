@@ -14,6 +14,7 @@
 - HandlerThread
 - WorkManager
 - Broadcast Intents
+- WebView
 
 ### Images
 
