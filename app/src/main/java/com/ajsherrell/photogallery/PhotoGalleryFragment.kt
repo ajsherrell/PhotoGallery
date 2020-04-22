@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.*
+import com.ajsherrell.PhotoPageActivity
 import java.util.concurrent.TimeUnit
 
 private const val TAG = "PhotoGalleryFragment"
@@ -168,7 +169,8 @@ class PhotoGalleryFragment : VisibleFragment() {
         }
 
         override fun onClick(view: View?) {
-            val intent = Intent(Intent.ACTION_VIEW, galleryItem.photoPageUri)
+            val intent = PhotoPageActivity.newIntent(requireContext(),
+                galleryItem.photoPageUri)
             startActivity(intent)
         }
     }

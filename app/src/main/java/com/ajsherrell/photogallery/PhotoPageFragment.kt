@@ -32,7 +32,7 @@ class PhotoPageFragment : VisibleFragment() {
     }
 
     companion object {
-        fun newInstance(uri: Uri): PhotoPageFragment {
+        fun newInstance(uri: Uri?): PhotoPageFragment {
             return  PhotoPageFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_URI, uri)
