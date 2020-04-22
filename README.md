@@ -12,5 +12,9 @@
 - GSON
 - REST Api from https://api.flickr.com/
 - HandlerThread
+- WorkManager
+- Broadcast Intents
 
 ### Images
+
+<img src="images/photos.png" width="300">
