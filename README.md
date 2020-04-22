@@ -16,7 +16,11 @@
 - Broadcast Intents
 - WebView
 - ProgessBar
+- Chrome Custom Tabs
 
 ### Images
 
-<img src="images/photos.png" width="300">    <img src="images/webView.png" width="300">
+<img src="images/photos.png" width="300">    <img src="images/webView.png" width="300"> 
+
+
+<img src="images/customChrome.png" width="300">
